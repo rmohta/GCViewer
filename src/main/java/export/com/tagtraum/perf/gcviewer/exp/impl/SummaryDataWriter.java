@@ -158,19 +158,24 @@ public class SummaryDataWriter extends AbstractDataWriter {
             exportValue(out, "freedMemoryPerMin", "n.a.", "M/min");
         }
 
-        final boolean gcDataAvailable = model.getGCPause().getN() > 0;
-        if (gcDataAvailable) {
+        //final boolean gcDataAvailable = model.getGCPause().getN() > 0;
+        final int gcCount = model.getGCPause().getN();
+        
+        if (gcCount > 0) {
             formed = footprintFormatter.formatToFormatted(model.getFreedMemoryByGC().getSum()/model.getGCPause().getSum());
+            exportValue(out, "gcCount", String.valueOf(gcCount), "int");
             exportValue(out, "gcPerformance", formed.getValue(), formed.getUnits() + "/s");
         }
         else {
             exportValue(out, "gcPerformance", "n.a.", "M/s");
         }
+        
+        final int fullGCCount = model.getFullGCPause().getN();
+        //final boolean fullGCDataAvailable = model.getFullGCPause().getN() > 0;
 
-        final boolean fullGCDataAvailable = model.getFullGCPause().getN() > 0;
-
-        if (fullGCDataAvailable) {
+        if (fullGCCount > 0) {
             formed = footprintFormatter.formatToFormatted(model.getFreedMemoryByFullGC().getSum()/model.getFullGCPause().getSum());
+            exportValue(out, "fullGCCount", String.valueOf(fullGCCount), "int");
             exportValue(out, "fullGCPerformance", formed.getValue(), formed.getUnits() + "/s");
         }
         else {

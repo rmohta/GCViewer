@@ -344,7 +344,9 @@ public abstract class AbstractDataReaderSun implements DataReader {
         if (gcType != null) {
             extendedType = ExtendedType.lookup(gcType, typeName);
         }
-
+        if(LOG.isLoggable(Level.FINE)) {
+        	LOG.fine(String.format("type name [%s] lookupTypeName [%s] gc type [%s]", typeName, lookupTypeName, gcType));
+        }
         return extendedType;
     }
 
